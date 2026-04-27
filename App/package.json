@@ -1,0 +1,42 @@
+{
+  "name": "unit-converter-app",
+  "version": "1.0.0",
+  "description": "单位换算工具APP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "cordova prepare",
+    "build-android": "cordova build android",
+    "build-ios": "cordova build ios",
+    "run-android": "cordova run android",
+    "run-ios": "cordova run ios"
+  },
+  "keywords": [
+    "unit",
+    "converter",
+    "app",
+    "mobile"
+  ],
+  "author": "Developer",
+  "license": "MIT",
+  "dependencies": {
+    "cordova-android": "^10.1.1",
+    "cordova-ios": "^6.2.0"
+  },
+  "devDependencies": {
+    "cordova": "^11.0.0"
+  },
+  "cordova": {
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "plugins": [
+      "cordova-plugin-whitelist",
+      "cordova-plugin-statusbar",
+      "cordova-plugin-splashscreen",
+      "cordova-plugin-device",
+      "cordova-plugin-storage"
+    ]
+  }
+}

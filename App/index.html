@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>单位换算工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .app {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 20px;
+            padding-bottom: 70px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .nav-item.active {
+            color: #4CAF50;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .placeholder {
+            text-align: center;
+            color: #666;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #45a049;
+        }
+        
+        .btn:active {
+            background-color: #3d8b40;
+        }
+        
+        .input-section {
+            margin-bottom: 20px;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .result-section {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+        
+        .dropdown-section {
+            margin-bottom: 15px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .history-item {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        
+        .history-item:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .settings-item {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .ad-banner {
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            单位换算工具
+        </div>
+        <div class="content">
+            <!-- Home Page -->
+            <div id="home" class="page active">
+                <h1>快捷换算</h1>
+                <div class="input-section">
+                    <input type="number" id="homeInput" placeholder="输入数值" step="any">
+                </div>
+                <div class="button-grid">
+                    <button class="btn" onclick="convert('ft', 'm')">ft → m</button>
+                    <button class="btn" onclick="convert('m', 'ft')">m → ft</button>
+                    <button class="btn" onclick="convert('in', 'cm')">in → cm</button>
+                    <button class="btn" onclick="convert('cm', 'in')">cm → in</button>
+                    <button class="btn" onclick="convert('sq ft', 'sq m')">sq ft → sq m</button>
+                    <button class="btn" onclick="convert('sq m', 'sq ft')">sq m → sq ft</button>
+                    <button class="btn" onclick="convert('gallon (US)', 'liter')">gallon → liter</button>
+                    <button class="btn" onclick="convert('liter', 'gallon (US)')">liter → gallon</button>
+                    <button class="btn" onclick="convert('lb', 'kg')">lb → kg</button>
+                    <button class="btn" onclick="convert('kg', 'lb')">kg → lb</button>
+                    <button class="btn" onclick="convert('ft³', 'm³')">ft³ → m³</button>
+                    <button class="btn" onclick="convert('m³', 'ft³')">m³ → ft³</button>
+                </div>
+                <div class="result-section">
+                    <div class="result" id="homeResult">结果将显示在这里</div>
+                </div>
+                <div class="ad-banner">
+                    <p>广告位</p>
+                </div>
+            </div>
+            
+            <!-- Advanced Converter Page -->
+            <div id="advanced" class="page">
+                <h1>高级换算</h1>
+                <div class="input-section">
+                    <input type="number" id="advancedInput" placeholder="输入数值" step="any">
+                </div>
+                <div class="dropdown-section">
+                    <select id="fromUnit" onchange="advancedConvert()">
+                        <option value="ft">ft</option>
+                        <option value="in">in</option>
+                        <option value="m">m</option>
+                        <option value="cm">cm</option>
+                        <option value="sq ft">sq ft</option>
+                        <option value="sq m">sq m</option>
+                        <option value="gallon (US)">gallon (US)</option>
+                        <option value="liter">liter</option>
+                        <option value="ft³">ft³</option>
+                        <option value="m³">m³</option>
+                        <option value="lb">lb</option>
+                        <option value="kg">kg</option>
+                    </select>
+                </div>
+                <div class="dropdown-section">
+                    <select id="toUnit" onchange="advancedConvert()">
+                        <option value="ft">ft</option>
+                        <option value="in">in</option>
+                        <option value="m">m</option>
+                        <option value="cm">cm</option>
+                        <option value="sq ft">sq ft</option>
+                        <option value="sq m">sq m</option>
+                        <option value="gallon (US)">gallon (US)</option>
+                        <option value="liter">liter</option>
+                        <option value="ft³">ft³</option>
+                        <option value="m³">m³</option>
+                        <option value="lb">lb</option>
+                        <option value="kg">kg</option>
+                    </select>
+                </div>
+                <div class="result-section">
+                    <div class="result" id="advancedResult">结果将显示在这里</div>
+                </div>
+                <div class="ad-banner">
+                    <p>广告位</p>
+                </div>
+            </div>
+            
+            <!-- History Page -->
+            <div id="history" class="page">
+                <h1>历史记录</h1>
+                <div id="historyList"></div>
+            </div>
+            
+            <!-- Settings Page -->
+            <div id="settings" class="page">
+                <h1>设置</h1>
+                <div class="settings-item">
+                    <button class="btn" onclick="removeAds()">Remove Ads</button>
+                </div>
+                <div class="settings-item">
+                    <button class="btn" onclick="restorePurchase()">Restore Purchase</button>
+                </div>
+                <div class="settings-item">
+                    <p>App Version: 1.0.0</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-bar">
+            <a href="#" class="nav-item active" onclick="showPage('home')">首页</a>
+            <a href="#" class="nav-item" onclick="showPage('advanced')">高级</a>
+            <a href="#" class="nav-item" onclick="showPage('history')">历史</a>
+            <a href="#" class="nav-item" onclick="showPage('settings')">设置</a>
+        </div>
+    </div>
+    
+    <script>
+        // 单位换算逻辑
+        function convert(fromUnit, toUnit) {
+            const input = parseFloat(document.getElementById('homeInput').value);
+            if (isNaN(input)) {
+                alert('请输入有效数值');
+                return;
+            }
+            
+            let result;
+            
+            // 长度换算
+            if (fromUnit === 'ft' && toUnit === 'm') {
+                result = input * 0.3048;
+            } else if (fromUnit === 'm' && toUnit === 'ft') {
+                result = input / 0.3048;
+            } else if (fromUnit === 'in' && toUnit === 'cm') {
+                result = input * 2.54;
+            } else if (fromUnit === 'cm' && toUnit === 'in') {
+                result = input / 2.54;
+            }
+            // 面积换算
+            else if (fromUnit === 'sq ft' && toUnit === 'sq m') {
+                result = input * 0.092903;
+            } else if (fromUnit === 'sq m' && toUnit === 'sq ft') {
+                result = input / 0.092903;
+            }
+            // 体积换算
+            else if (fromUnit === 'gallon (US)' && toUnit === 'liter') {
+                result = input * 3.78541;
+            } else if (fromUnit === 'liter' && toUnit === 'gallon (US)') {
+                result = input / 3.78541;
+            } else if (fromUnit === 'ft³' && toUnit === 'm³') {
+                result = input * 0.0283168;
+            } else if (fromUnit === 'm³' && toUnit === 'ft³') {
+                result = input / 0.0283168;
+            }
+            // 重量换算
+            else if (fromUnit === 'lb' && toUnit === 'kg') {
+                result = input * 0.453592;
+            } else if (fromUnit === 'kg' && toUnit === 'lb') {
+                result = input / 0.453592;
+            }
+            
+            const formattedResult = result.toFixed(2);
+            document.getElementById('homeResult').textContent = `${input} ${fromUnit} → ${formattedResult} ${toUnit}`;
+            
+            // 保存到历史记录
+            saveToHistory(input, fromUnit, toUnit, formattedResult);
+        }
+        
+        function advancedConvert() {
+            const input = parseFloat(document.getElementById('advancedInput').value);
+            if (isNaN(input)) {
+                document.getElementById('advancedResult').textContent = '请输入有效数值';
+                return;
+            }
+            
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+            
+            let result;
+            
+            // 长度换算
+            if (fromUnit === 'ft' && toUnit === 'm') {
+                result = input * 0.3048;
+            } else if (fromUnit === 'm' && toUnit === 'ft') {
+                result = input / 0.3048;
+            } else if (fromUnit === 'in' && toUnit === 'cm') {
+                result = input * 2.54;
+            } else if (fromUnit === 'cm' && toUnit === 'in') {
+                result = input / 2.54;
+            } else if (fromUnit === 'ft' && toUnit === 'in') {
+                result = input * 12;
+            } else if (fromUnit === 'in' && toUnit === 'ft') {
+                result = input / 12;
+            } else if (fromUnit === 'm' && toUnit === 'cm') {
+                result = input * 100;
+            } else if (fromUnit === 'cm' && toUnit === 'm') {
+                result = input / 100;
+            }
+            // 面积换算
+            else if (fromUnit === 'sq ft' && toUnit === 'sq m') {
+                result = input * 0.092903;
+            } else if (fromUnit === 'sq m' && toUnit === 'sq ft') {
+                result = input / 0.092903;
+            }
+            // 体积换算
+            else if (fromUnit === 'gallon (US)' && toUnit === 'liter') {
+                result = input * 3.78541;
+            } else if (fromUnit === 'liter' && toUnit === 'gallon (US)') {
+                result = input / 3.78541;
+            } else if (fromUnit === 'ft³' && toUnit === 'm³') {
+                result = input * 0.0283168;
+            } else if (fromUnit === 'm³' && toUnit === 'ft³') {
+                result = input / 0.0283168;
+            }
+            // 重量换算
+            else if (fromUnit === 'lb' && toUnit === 'kg') {
+                result = input * 0.453592;
+            } else if (fromUnit === 'kg' && toUnit === 'lb') {
+                result = input / 0.453592;
+            }
+            // 相同单位
+            else if (fromUnit === toUnit) {
+                result = input;
+            }
+            
+            const formattedResult = result.toFixed(2);
+            document.getElementById('advancedResult').textContent = `${input} ${fromUnit} → ${formattedResult} ${toUnit}`;
+        }
+        
+        // 历史记录功能
+        function saveToHistory(input, fromUnit, toUnit, result) {
+            let history = JSON.parse(localStorage.getItem('conversionHistory') || '[]');
+            
+            const record = {
+                input_value: input,
+                from_unit: fromUnit,
+                to_unit: toUnit,
+                result: result,
+                created_time: new Date().toISOString()
+            };
+            
+            history.unshift(record);
+            history = history.slice(0, 10); // 只保留最近10条
+            
+            localStorage.setItem('conversionHistory', JSON.stringify(history));
+        }
+        
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('conversionHistory') || '[]');
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<p style="text-align: center; color: #666;">暂无历史记录</p>';
+                return;
+            }
+            
+            history.forEach(record => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.textContent = `${record.input_value} ${record.from_unit} → ${record.result} ${record.to_unit}`;
+                item.onclick = () => {
+                    document.getElementById('homeInput').value = record.input_value;
+                    showPage('home');
+                };
+                historyList.appendChild(item);
+            });
+        }
+        
+        // 页面切换
+        function showPage(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示选中页面
+            document.getElementById(pageId).classList.add('active');
+            
+            // 更新导航栏状态
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 加载历史记录
+            if (pageId === 'history') {
+                loadHistory();
+            }
+        }
+        
+        // 设置页面功能
+        function removeAds() {
+            alert('Remove Ads功能已触发');
+        }
+        
+        function restorePurchase() {
+            alert('Restore Purchase功能已触发');
+        }
+        
+        // 监听高级换算输入变化
+        document.getElementById('advancedInput').addEventListener('input', advancedConvert);
+        
+        // 初始化
+        document.addEventListener('deviceready', function() {
+            console.log('Device is ready');
+        }, false);
+    </script>
+</body>
+</html>
